@@ -50,14 +50,24 @@ public class ArrayEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ArrayEntity that = (ArrayEntity) o;
-        return Objects.equals(id, that.id) && Arrays.equals(array, that.array);
+        if (ArrayEntity.getArray().length != array.length){
+            return false;
+        }
+        for (int i = 0; i < ArrayEntity.getArray().length; i++) {
+            if (array[i] != ArrayEntity.getArray()[i]){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id);
-        result = 31 * result + Arrays.hashCode(array);
-        return result;
+        int hashCode = 7;
+        for (int i = 0; i < array.length; i++) {
+            hashCode = 31 * hashCode + array[i] * 2 ^ i;
+        }
+        return hashCode;
     }
 
     @Override
