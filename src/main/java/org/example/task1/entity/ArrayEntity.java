@@ -27,15 +27,13 @@ public class ArrayEntity {
 
     public void setArray(int[] array) {
         this.array = array != null ? array.clone() : new int[0];
-        // Уведомляем наблюдателей об изменении
-        //ArrayRepository.getInstance().notifyArrayChanged(this);
+
     }
 
     public void setElement(int index, int value) {
         if (index >= 0 && index < array.length) {
             array[index] = value;
-            // Уведомляем наблюдателей об изменении
-            //ArrayRepository.getInstance().notifyArrayChanged(this);
+            
         }
     }
 
