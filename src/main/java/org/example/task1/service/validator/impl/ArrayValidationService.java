@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 
         @Override
         public boolean isLineValid(String line) throws ArrayException {
-            if (line == null || line.trim().isEmpty()) {
+            if (line == null || line.isBlank()) {
                 logger.info("Line is empty");
                 return false;
             }
@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
          * Валидация ID массива
          */
         public boolean isValidId(String id) {
-            if (id == null || id.trim().isEmpty()) {
+            if (id == null || id.isEmpty()) {
                 logger.warn("ID is null or empty");
                 return false;
             }

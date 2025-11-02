@@ -1,10 +1,10 @@
 package org.example.task1.comparator;
 
 import java.util.Comparator;
-import org.example.task1.warehouse.Warehouse;
+
 import org.example.task1.entity.ArrayEntity;
 //import org.example.task1.service.calculator.impl;
-import org.example.task1.service.finder.impl.ArrayFinderService;
+
 
 public class ArrayComparators {
     

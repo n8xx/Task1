@@ -48,11 +48,11 @@ public class ArrayEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ArrayEntity that = (ArrayEntity) o;
-        if (ArrayEntity.getArray().length != array.length){
+        if (that.getArray().length != array.length){
             return false;
         }
-        for (int i = 0; i < ArrayEntity.getArray().length; i++) {
-            if (array[i] != ArrayEntity.getArray()[i]){
+        for (int i = 0; i < that.getArray().length; i++) {
+            if (array[i] != that.getArray()[i]){
                 return false;
             }
         }

@@ -6,9 +6,6 @@ import org.example.task1.service.finder.ArrayFinder;
 
 public class ArrayFinderService implements ArrayFinder {
 
-    ArrayFinderService(ArrayEntity arrayEntity) {
-
-    }
     public int findMin(ArrayEntity arrayEntity) throws ArrayException{
         int min =0;
         for(int i = 0;i<arrayEntity.getArray().length;i++){
