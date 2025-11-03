@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.task1.entity.ArrayEntity;
 import org.example.task1.repository.impl.ArrayRepositoryImpl;
-import org.example.task1.service.observer.impl.ArrayObserverIpml;
+import org.example.task1.service.observer.impl.;
 import org.example.task1.service.reader.impl.ArrayReaderService;
 import org.example.task1.service.parser.impl.ArrayParserService;
 import org.example.task1.factory.ArrayEntityFactory;

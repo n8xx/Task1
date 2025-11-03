@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
         private static final int MAX_NUMBER_VALUE = 1000000;
 
         @Override
-        public boolean isLineValid(String line) throws ArrayException {
+        public boolean isLineValid(String line) {
             if (line == null || line.isBlank()) {
                 logger.info("Line is empty");
                 return false;
@@ -90,14 +90,14 @@ import java.util.regex.Pattern;
             return true;
         }
 
-        public boolean isValidEntity(ArrayEntity arrayEntity) throws ArrayException {
+        public boolean isValidEntity(ArrayEntity arrayEntity)  {
             if(isLineValid(arrayEntity.getId()) == true) {
                 return isValidArray(arrayEntity.getArray());
             }
             return false;
         }
 
-        public boolean isValidFilePath(String filePath) throws ArrayException {
+        public boolean isValidFilePath(String filePath)  {
             if (filePath == null || filePath.isBlank()) {
                 logger.warn("File path is null or empty");
                 return false;

@@ -27,29 +27,11 @@ public class ArrayStatsWarehouse {
         }
         return instance;
     }
-
-    public void updateStats(ArrayEntity arrayEntity) throws ArrayException {
-        ArrayValidationService validator = new ArrayValidationService();
-        if(validator.isValidEntity(arrayEntity)) {
-            ArrayStats stats = getStats(arrayEntity);
-            if(stats != null) {
-                if (arrayEntity.getLength() > 0) {
-                ArrayFinderService arrayFinderService = new ArrayFinderService();
-                ArrayCalculationService arrayCalculationService = new ArrayCalculationService();
-                stats.setSum(arrayCalculationService.calculateSum(arrayEntity)) ;
-                stats.setAvg(arrayCalculationService.calculateAverage(arrayEntity));
-                stats.setMax(arrayFinderService.findMax(arrayEntity));
-                stats.setMin(arrayFinderService.findMin(arrayEntity));
-
-                statsMap.put(arrayEntity.getId(), stats);
-                }else{
-                    stats = new ArrayStats(arrayEntity.getId(),0,0,0,0);
-
-                }
-            }
-        }
+    public Map<String, ArrayStats> getStatsMap() {
+        return statsMap;
     }
-    
+
+
     public ArrayStats getStats(ArrayEntity arrayEntity) throws ArrayException {
         return statsMap.get(arrayEntity.getId());
     }

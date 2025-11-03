@@ -13,6 +13,7 @@ public class ArrayEntity implements ArrayObservable {
     private final static Logger logger = LogManager.getLogger();
     private final String id;
     private int[] array;
+    private ArrayObserverIpml observer;
 
     public ArrayEntity(String id, int[] array) {
         this.id = id;
@@ -62,7 +63,7 @@ public class ArrayEntity implements ArrayObservable {
     public void notifyObservers() {
         if (observer != null){
             logger.info("Observers have been notified");
-            observer.update(this);
+            observer.updateStats();
         }
     }
 
