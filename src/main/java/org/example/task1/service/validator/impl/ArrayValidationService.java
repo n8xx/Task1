@@ -4,8 +4,6 @@ import org.example.task1.entity.ArrayEntity;
 import org.example.task1.service.validator.ArrayValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.task1.exception.ArrayException;
-import org.example.task1.service.validator.ArrayValidator;
 
 import java.nio.file.Path;
 import java.util.regex.Pattern;
@@ -36,9 +34,7 @@ import java.util.regex.Pattern;
             return isValid;
         }
 
-        /**
-         * Валидация ID массива
-         */
+
         public boolean isValidId(String id) {
             if (id == null || id.isEmpty()) {
                 logger.warn("ID is null or empty");
@@ -54,9 +50,7 @@ import java.util.regex.Pattern;
             return isValid;
         }
 
-        /**
-         * Валидация отдельного числа
-         */
+
         public boolean isValidNumber(int number) {
             boolean isValid = number >= MIN_NUMBER_VALUE && number <= MAX_NUMBER_VALUE;
             if (!isValid) {
@@ -65,9 +59,7 @@ import java.util.regex.Pattern;
             return isValid;
         }
 
-        /**
-         * Валидация всего массива
-         */
+
         public boolean isValidArray(int[] array) {
             if (array == null) {
                 logger.warn("Array is null");
@@ -106,23 +98,15 @@ import java.util.regex.Pattern;
             return true;
         }
 
-        /**
-         * Получить максимально допустимую длину массива
-         */
+
         public int getMaxArrayLength() {
             return MAX_ARRAY_LENGTH;
         }
 
-        /**
-         * Получить минимальное допустимое значение числа
-         */
         public int getMinNumberValue() {
             return MIN_NUMBER_VALUE;
         }
 
-        /**
-         * Получить максимальное допустимое значение числа
-         */
         public int getMaxNumberValue() {
             return MAX_NUMBER_VALUE;
         }

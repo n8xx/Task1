@@ -31,7 +31,7 @@ public class ArrayParserService implements ArrayEntityParser {
             }
             return null;
         }
-            private int[] parseArrayFromString(String line) throws ArrayException {
+            public int[] parseArrayFromString(String line) throws ArrayException {
                 String numberString = line.split(SPLIT_REGEX)[1].trim();
                 ArrayValidator validator = new ArrayValidationService();
                 if (numberString == null || numberString.isBlank()) {
@@ -76,7 +76,7 @@ public class ArrayParserService implements ArrayEntityParser {
                 logger.debug("Successfully parsed {} numbers", result.length);
                 return result;
             }
-            private String parseIdFromString(String line) throws ArrayException {
+            public String parseIdFromString(String line) throws ArrayException {
                 ArrayValidator validator = new ArrayValidationService();
                 String id;
                 if (line != null || line.isBlank()==false) {
