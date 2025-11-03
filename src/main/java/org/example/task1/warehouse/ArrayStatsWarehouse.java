@@ -1,5 +1,7 @@
 package org.example.task1.warehouse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.task1.entity.ArrayEntity;
 import org.example.task1.exception.ArrayException;
 import org.example.task1.service.validator.impl.ArrayValidationService;
@@ -13,9 +15,9 @@ import java.util.Map;
 public class ArrayStatsWarehouse {
     private static ArrayStatsWarehouse instance;
     private Map<String, ArrayStats> statsMap;
+    public static final Logger logger = LogManager.getLogger(ArrayValidationService.class);
 
     private ArrayStatsWarehouse() {
-        ArrayValidationService validator = new ArrayValidationService();
         statsMap = new HashMap<>();
     }
     
@@ -25,11 +27,12 @@ public class ArrayStatsWarehouse {
         }
         return instance;
     }
-    
-    public void updateStats(ArrayEntity arrayEntity) throws ArrayException {
-        validator.
-        ArrayStats stats = new ArrayStats(arrayEntity.getId(), 0, 0, 0, 0);
 
+    public void updateStats(ArrayEntity arrayEntity) throws ArrayException {
+        ArrayValidationService validator = new ArrayValidationService();
+        if(validator.isValidEntity(arrayEntity)) {
+            try{
+        ArrayStats stats = getStats(arrayEntity);
         if (arrayEntity.getLength() > 0) {
             ArrayFinderService arrayFinderService = new ArrayFinderService();
             ArrayCalculationService arrayCalculationService = new ArrayCalculationService();
@@ -39,6 +42,8 @@ public class ArrayStatsWarehouse {
             stats.setMin(arrayFinderService.findMin(arrayEntity));
 
             statsMap.put(arrayEntity.getId(), stats);
+                }
+            }catch(ArrayException e){logger.warn("cant find array entity");}
         }
     }
     

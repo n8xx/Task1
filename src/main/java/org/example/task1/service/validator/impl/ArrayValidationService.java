@@ -1,5 +1,6 @@
 package org.example.task1.service.validator.impl;
 
+import org.example.task1.entity.ArrayEntity;
 import org.example.task1.service.validator.ArrayValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -81,7 +82,6 @@ import java.util.regex.Pattern;
             for (int i = 0; i < array.length; i++) {
                 if (!isValidNumber(array[i])) {
                     logger.warn("Array contains invalid number at index {}: {}", i, array[i]);
-                    return false;
                 }
             }
 
@@ -93,7 +93,7 @@ import java.util.regex.Pattern;
          * Валидация строки в формате "id:числа"
          */
         public boolean isValidEntityLine(String line) throws ArrayException {
-            if (line == null || line.trim().isEmpty()) {
+            if (line == null || line.isBlank()) {
                 logger.info("Line is empty");
                 return false;
             }
@@ -123,65 +123,13 @@ import java.util.regex.Pattern;
             return true;
         }
 
-        /**
-         * Валидация с получением детальной информации об ошибке
-         */
-        public ValidationResult validateWithDetails(String line) {
-            if (line == null) {
-                return new ValidationResult(false, "Line is null");
+        public boolean isValidEntity(ArrayEntity arrayEntity) throws ArrayException {
+            if(isLineValid(arrayEntity.getId()) == true) {
+                return isValidArray(arrayEntity.getArray());
             }
-
-            if (line.trim().isEmpty()) {
-                return new ValidationResult(false, "Line is empty");
-            }
-
-            String[] parts = line.split(":", 2);
-            if (parts.length != 2) {
-                return new ValidationResult(false, "Invalid format. Expected 'id:numbers'");
-            }
-
-            String id = parts[0].trim();
-            String numbersPart = parts[1].trim();
-
-            // Валидация ID
-            if (id.isEmpty()) {
-                return new ValidationResult(false, "ID is empty");
-            }
-
-            if (!Pattern.matches(ID_REGEX, id)) {
-                return new ValidationResult(false,
-                        "ID '" + id + "' is not valid. Must start with letter or underscore and contain only letters, numbers and underscores");
-            }
-
-            // Валидация чисел (если они есть)
-            if (!numbersPart.isEmpty()) {
-                if (!Pattern.matches(REGEX, numbersPart)) {
-                    return new ValidationResult(false, "Numbers format is not valid: " + numbersPart);
-                }
-
-                // Дополнительная проверка на максимальное количество чисел
-                String[] numberStrings = numbersPart.split("[,;\\-\\s]+");
-                if (numberStrings.length > MAX_ARRAY_LENGTH) {
-                    return new ValidationResult(false,
-                            "Too many numbers: " + numberStrings.length + ", maximum allowed: " + MAX_ARRAY_LENGTH);
-                }
-
-                // Проверка диапазонов чисел
-                for (String numStr : numberStrings) {
-                    try {
-                        int num = Integer.parseInt(numStr.trim());
-                        if (num < MIN_NUMBER_VALUE || num > MAX_NUMBER_VALUE) {
-                            return new ValidationResult(false,
-                                    "Number " + num + " is out of allowed range [" + MIN_NUMBER_VALUE + ", " + MAX_NUMBER_VALUE + "]");
-                        }
-                    } catch (NumberFormatException e) {
-                        return new ValidationResult(false, "Invalid number format: " + numStr);
-                    }
-                }
-            }
-
-            return new ValidationResult(true, "Valid");
+            return false;
         }
+
 
         /**
          * Получить максимально допустимую длину массива
@@ -204,31 +152,7 @@ import java.util.regex.Pattern;
             return MAX_NUMBER_VALUE;
         }
 
-        /**
-         * Результат валидации с детальным сообщением
-         */
-        public static class ValidationResult {
-            private final boolean valid;
-            private final String message;
 
-            public ValidationResult(boolean valid, String message) {
-                this.valid = valid;
-                this.message = message;
-            }
-
-            public boolean isValid() {
-                return valid;
-            }
-
-            public String getMessage() {
-                return message;
-            }
-
-            @Override
-            public String toString() {
-                return "ValidationResult{valid=" + valid + ", message='" + message + "'}";
-            }
-        }
     }
 
 
