@@ -2,10 +2,12 @@ package org.example.task1.repository.impl;
 
 import org.example.task1.entity.ArrayEntity;
 import org.example.task1.exception.ArrayException;
+import org.example.task1.factory.ArrayEntityFactory;
 import org.example.task1.service.validator.impl.ArrayValidationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.task1.repository.ArrayRepository;
+import org.example.task1.service.parser.impl.ArrayParserService;
 
 import java.util.ArrayList;
 import java.util.Comparator;

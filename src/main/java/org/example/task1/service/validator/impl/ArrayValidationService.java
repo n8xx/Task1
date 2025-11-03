@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.example.task1.exception.ArrayException;
 import org.example.task1.service.validator.ArrayValidator;
 
+import java.nio.file.Path;
 import java.util.regex.Pattern;
 
 
@@ -94,6 +95,15 @@ import java.util.regex.Pattern;
                 return isValidArray(arrayEntity.getArray());
             }
             return false;
+        }
+
+        public boolean isValidFilePath(String filePath) throws ArrayException {
+            if (filePath == null || filePath.isBlank()) {
+                logger.warn("File path is null or empty");
+                return false;
+            }
+            Path path = Path.of(filePath).normalize();
+            return true;
         }
 
         /**

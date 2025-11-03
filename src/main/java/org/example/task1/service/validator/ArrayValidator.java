@@ -7,17 +7,12 @@ public interface ArrayValidator {
 
     boolean isLineValid(String line) throws ArrayException;
 
-    // Дополнительные методы (опционально)
-    default boolean isValidId(String id) {
-        return true; // Базовая реализация
-    }
+    default boolean isValidId(String id) {return true;}
 
-    default boolean isValidNumber(int number) {
-        return true; // Базовая реализация
-    }
+    default boolean isValidNumber(int number) {return true;}
 
-    default boolean isValidArray(int[] array) {
-        return true; // Базовая реализация
-    }
+    default boolean isValidArray(int[] array) {return true;}
+
+    default boolean isValidFilePath(){return true;}
 
 }

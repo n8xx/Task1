@@ -1,37 +1,35 @@
 package org.example.task1.service.reader.impl;
 
-import org.example.task1.entity.ArrayEntity;
-import org.example.task1.service.parser.impl.ArrayParserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.task1.exception.ArrayException;
+import org.example.task1.service.reader.ArrayFileReader;
+import org.example.task1.service.validator.impl.ArrayValidationService;
 
-import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArrayReaderService {
-    
-    public static List<ArrayEntity> readFromFile(String filename) throws IOException {
-        List<ArrayEntity> arrays = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            String line;
-            int lineNumber = 0;
-            while ((line = reader.readLine()) != null) {
-                lineNumber++;
-                if (line.isBlank()) continue;
-                try {
-                    String[] parts = line.split(":", 2);
-                    if (parts.length == 2) {
-                        String id = parts[0].trim();
-                        String data = parts[1].trim();
-                        ArrayEntity entity = ArrayParserService.parseLine(ArrayEntity);
-                        arrays.add(entity);
-                    }
-                } catch (Exception e) {
-                    System.err.println("Error parsing line " + lineNumber + ": " + line);
-                }
+
+public class ArrayReaderService implements ArrayFileReader {
+    public static final Logger logger = LogManager.getLogger(ArrayReaderService.class);
+
+
+    public List<String> readFromFile(String filepath) throws ArrayException {
+        ArrayValidationService validator = new ArrayValidationService();
+        if (validator.isValidFilePath(filepath)) {
+            List<String> list = new ArrayList<>();
+            File file = new File(filepath);
+            try (FileReader reader = new FileReader(file)) {
+                reader.read();
+            }catch(Exception e) {
+                logger.warn("Error while reading file " + filepath, e);
             }
+
+            logger.info("The file has read successfully and you have a new string array list");
+            return list;
         }
-        return arrays;
+        return null;
     }
 }

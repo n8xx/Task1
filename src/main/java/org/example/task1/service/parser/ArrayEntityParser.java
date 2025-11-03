@@ -8,6 +8,5 @@ import java.nio.file.Path;
 import java.util.List;
 
 public interface ArrayEntityParser {
-    public ArrayEntity parseString(String line, int lineNumber) throws ArrayException;
-
+    public ArrayEntity parseEntityFromString(String line) throws ArrayException;
 }

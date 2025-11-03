@@ -2,7 +2,9 @@ package org.example.task1.service.reader;
 
 import org.example.task1.exception.ArrayException;
 
+import java.util.List;
+
 public interface ArrayFileReader {
-    public int[] readFile(String path) throws ArrayException;
+    public  List<String> readFromFile(String path) throws ArrayException;
 
 }

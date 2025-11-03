@@ -1,10 +1,16 @@
 package org.example.task1.entity;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.task1.service.observer.ArrayObservable;
+import org.example.task1.service.observer.impl.ArrayObserverIpml;
+
+
 import java.util.Arrays;
-import java.util.Objects;
 
 
-public class ArrayEntity {
+public class ArrayEntity implements ArrayObservable {
+    private final static Logger logger = LogManager.getLogger();
     private final String id;
     private int[] array;
 
@@ -41,6 +47,24 @@ public class ArrayEntity {
         return array.length;
     }
 
+    @Override
+    public void attach(ArrayObserverIpml observer) {
+        logger.info("An observer has been attached to an array");
+        this.observer = observer;
+    }
+
+    @Override
+    public void detach(ArrayObserverIpml observer) {
+        logger.info("An observer has been detached to an array");
+        this.observer = null;
+    }
+    @Override
+    public void notifyObservers() {
+        if (observer != null){
+            logger.info("Observers have been notified");
+            observer.update(this);
+        }
+    }
 
 
     @Override
