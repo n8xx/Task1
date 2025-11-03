@@ -89,47 +89,12 @@ import java.util.regex.Pattern;
             return true;
         }
 
-        /**
-         * Валидация строки в формате "id:числа"
-         */
-        public boolean isValidEntityLine(String line) throws ArrayException {
-            if (line == null || line.isBlank()) {
-                logger.info("Line is empty");
-                return false;
-            }
-
-            // Разделяем на ID и числа
-            String[] parts = line.split(":", 2);
-            if (parts.length != 2) {
-                logger.warn("Invalid format. Expected 'id:numbers', got: {}", line);
-                return false;
-            }
-
-            String id = parts[0].trim();
-            String numbersPart = parts[1].trim();
-
-            // Валидируем ID
-            if (!isValidId(id)) {
-                return false;
-            }
-
-            // Валидируем часть с числами
-            if (!numbersPart.isEmpty() && !isLineValid(numbersPart)) {
-                logger.warn("Numbers part is not valid: {}", numbersPart);
-                return false;
-            }
-
-            logger.debug("Entity line is valid: {}", line);
-            return true;
-        }
-
         public boolean isValidEntity(ArrayEntity arrayEntity) throws ArrayException {
             if(isLineValid(arrayEntity.getId()) == true) {
                 return isValidArray(arrayEntity.getArray());
             }
             return false;
         }
-
 
         /**
          * Получить максимально допустимую длину массива

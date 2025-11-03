@@ -18,8 +18,7 @@ public class ArrayReaderService {
             int lineNumber = 0;
             while ((line = reader.readLine()) != null) {
                 lineNumber++;
-                if (line.trim().isEmpty()) continue;
-                
+                if (line.isBlank()) continue;
                 try {
                     String[] parts = line.split(":", 2);
                     if (parts.length == 2) {
