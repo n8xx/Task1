@@ -4,8 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.task1.entity.ArrayEntity;
 import org.example.task1.exception.ArrayException;
+import org.example.task1.observer.impl.ArrayStatsObserver;
 import org.example.task1.repository.ArrayRepository;
-import org.example.task1.service.observer.impl.ArrayObserverIpml;
 import org.example.task1.service.reader.impl.ArrayReaderService;
 import org.example.task1.service.parser.impl.ArrayParserService;
 import org.example.task1.factory.ArrayEntityFactory;
@@ -16,13 +16,13 @@ public class Main {
         ArrayReaderService fileReader = new ArrayReaderService();
 
         ArrayParserService parser= new ArrayParserService();
-        ArrayObserverIpml observer = new ArrayObserverIpml();
+        ArrayStatsObserver observer = new ArrayStatsObserver();
         ArrayRepository arrayRepository = ArrayRepository.getInstance();
         try {
-            ArrayEntity array = ArrayEntityFactory.createWithData(parser.parseIdFromString("data/data.txt"),
+            ArrayEntity arrayEntity = ArrayEntityFactory.createWithData(parser.parseIdFromString("data/data.txt"),
                     parser.parseArrayFromString("data/data.txt"));
-            array.attach(observer);
-            arrayRepository.addArray(array);
+            arrayEntity.attach(observer);
+            arrayRepository.addArray(arrayEntity);
         }
         catch(ArrayException e){
             logger.error("Can't access file");

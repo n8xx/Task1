@@ -7,5 +7,5 @@ import java.util.function.IntPredicate;
 
 public interface ArrayManipulator {
 
-    void replaceByCondition(ArrayEntity arrayEntity, IntPredicate condition,int NewValue) throws ArrayException;
+    void replaceByCondition(ArrayEntity arrayEntity, String condition, int referenceValue, int newValue) throws ArrayException;
 }

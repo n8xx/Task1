@@ -2,18 +2,19 @@ package org.example.task1.entity;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.task1.service.observer.ArrayObservable;
-import org.example.task1.service.observer.impl.ArrayObserverIpml;
-
+import org.example.task1.observer.ArrayObserver;
+import org.example.task1.observer.impl.ArrayStatsObserver;
+import org.example.task1.observer.ArrayObservable;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 public class ArrayEntity implements ArrayObservable {
-    private final static Logger logger = LogManager.getLogger();
+    public final static Logger logger = LogManager.getLogger();
     private final String id;
     private int[] array;
-    private ArrayObserverIpml observer;
+    private ArrayStatsObserver observer;
 
     public ArrayEntity(String id, int[] array) {
         this.id = id;
@@ -34,7 +35,7 @@ public class ArrayEntity implements ArrayObservable {
 
     public void setArray(int[] array) {
         this.array = array != null ? array.clone() : new int[0];
-
+        notifyObservers(observer);
     }
 
     public void setElement(int index, int value) {
@@ -42,6 +43,7 @@ public class ArrayEntity implements ArrayObservable {
             array[index] = value;
             
         }
+        notifyObservers(observer);
     }
 
     public int getLength() {
@@ -49,21 +51,22 @@ public class ArrayEntity implements ArrayObservable {
     }
 
     @Override
-    public void attach(ArrayObserverIpml observer) {
+    public void attach(ArrayStatsObserver observer) {
         logger.info("An observer has been attached to an array");
         this.observer = observer;
     }
 
     @Override
-    public void detach(ArrayObserverIpml observer) {
+    public void detach(ArrayStatsObserver observer) {
         logger.info("An observer has been detached to an array");
         this.observer = null;
     }
     @Override
-    public void notifyObservers() {
+    public void notifyObservers( ArrayStatsObserver observer){
         if (observer != null){
+            observer.onArrayChanged(this);
             logger.info("Observers have been notified");
-            observer.updateStats();
+
         }
     }
 

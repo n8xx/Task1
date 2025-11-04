@@ -3,6 +3,8 @@ package org.example.task1.service.calculator.impl;
 import org.example.task1.entity.ArrayEntity;
 import org.example.task1.exception.ArrayException;
 import org.example.task1.service.calculator.ArrayCalculator;
+import org.example.task1.service.manipulator.ArrayManipulator;
+import org.example.task1.service.validator.impl.ArrayValidationService;
 
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -10,7 +12,6 @@ import java.util.logging.Logger;
 
 public class ArrayCalculationService implements ArrayCalculator {
     private static final Logger logger = Logger.getLogger(ArrayEntity.class.getName());
-
     public double calculateAverage(ArrayEntity arrayEntity) throws ArrayException{
         double avg = 0;
         if(arrayEntity.getArray().length>0){
