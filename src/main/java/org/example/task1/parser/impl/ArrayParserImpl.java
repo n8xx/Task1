@@ -1,4 +1,4 @@
-package org.example.task1.service.parser.impl;
+package org.example.task1.parser.impl;
 
 
 import org.apache.logging.log4j.LogManager;
@@ -7,10 +7,7 @@ import org.example.task1.entity.ArrayEntity;
 import org.example.task1.exception.ArrayException;
 import org.example.task1.service.parser.ArrayEntityParser;
 import org.example.task1.factory.ArrayEntityFactory;
-import org.example.task1.service.validator.ArrayValidator;
-import org.example.task1.service.validator.impl.ArrayValidationService;
-
-import org.example.task1.service.reader.impl.ArrayReaderService;
+import org.example.task1.validator.impl.ArrayValidationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +15,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class ArrayParserService implements ArrayEntityParser {
+public class ArrayParserImpl implements ArrayEntityParser {
         private final static Logger logger = LogManager.getLogger();
         public final String SPLIT_REGEX = ":\\s+";
         public static final String NUMBERS_REGEX = "^\\s*(-?\\d+)(\\s*[,;\\-\\s]\\s*-?\\d+)*\\s*$";
 
         @Override
         public ArrayEntity parseEntityFromString(String line) throws ArrayException {
-            ArrayValidator validator = new ArrayValidationService();
+            ArrayValidationService validator = new ArrayValidationService();
             if(validator.isLineValid(line)) {
                 return ArrayEntityFactory.createWithData(parseIdFromString(line),parseArrayFromString(line));
             }
@@ -33,7 +30,7 @@ public class ArrayParserService implements ArrayEntityParser {
         }
             public int[] parseArrayFromString(String line) throws ArrayException {
                 String numberString = line.split(SPLIT_REGEX)[1].trim();
-                ArrayValidator validator = new ArrayValidationService();
+                ArrayValidationService validator = new ArrayValidationService();
                 if (numberString == null || numberString.isBlank()) {
                     logger.warn("Numbers string is empty");
                     return new int[0];
@@ -77,7 +74,7 @@ public class ArrayParserService implements ArrayEntityParser {
                 return result;
             }
             public String parseIdFromString(String line) throws ArrayException {
-                ArrayValidator validator = new ArrayValidationService();
+                ArrayValidationService validator = new ArrayValidationService();
                 String id;
                 if (line != null || line.isBlank()==false) {
                      id = line.split(SPLIT_REGEX)[0].trim();
@@ -87,8 +84,4 @@ public class ArrayParserService implements ArrayEntityParser {
                 }
                 return id;
             }
-
-
-
-
     }

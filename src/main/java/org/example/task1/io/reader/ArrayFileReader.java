@@ -1,4 +1,4 @@
-package org.example.task1.service.reader;
+package org.example.task1.io.reader;
 
 import org.example.task1.exception.ArrayException;
 

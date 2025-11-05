@@ -1,4 +1,4 @@
-package org.example.task1.service.validator.impl;
+package org.example.task1.validator.impl;
 
 import org.example.task1.entity.ArrayEntity;
 import org.example.task1.service.validator.ArrayValidator;
@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
         public static final Logger logger = LogManager.getLogger(ArrayValidationService.class);
         public static final String REGEX = "^\\s*(-?\\d+)(\\s*[,;\\-\\s]\\s*-?\\d+)*\\s*$";
 
-        // Дополнительные константы для валидации
         private static final String ID_REGEX = "^[a-zA-Z_][a-zA-Z0-9_]*$";
         private static final int MAX_ARRAY_LENGTH = 1000;
         private static final int MIN_NUMBER_VALUE = -1000000;
@@ -83,7 +82,7 @@ import java.util.regex.Pattern;
         }
 
         public boolean isValidEntity(ArrayEntity arrayEntity)  {
-            if(isLineValid(arrayEntity.getId()) == true) {
+            if(isLineValid(arrayEntity.getId())) {
                 return isValidArray(arrayEntity.getArray());
             }
             return false;

@@ -1,4 +1,4 @@
-package org.example.task1.service.validator;
+package org.example.task1.validator;
 
 import org.example.task1.exception.ArrayException;
 

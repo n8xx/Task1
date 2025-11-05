@@ -30,7 +30,6 @@ public class ArrayStatsWarehouse {
         return statsMap;
     }
 
-
     public ArrayStats getStats(ArrayEntity arrayEntity) throws ArrayException {
         return statsMap.get(arrayEntity.getId());
     }
