@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.task1.exception.ArrayException;
 import org.example.task1.io.reader.ArrayFileReader;
-import org.example.task1.service.validator.impl.ArrayValidationService;
+import org.example.task1.validator.impl.ArrayValidationService;
 
 import java.io.File;
 import java.io.FileReader;

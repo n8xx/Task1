@@ -7,7 +7,7 @@ import org.example.task1.exception.ArrayException;
 import org.example.task1.observer.ArrayObserver;
 import org.example.task1.service.calculator.impl.ArrayCalculationService;
 import org.example.task1.service.finder.impl.ArrayFinderService;
-import org.example.task1.service.validator.impl.ArrayValidationService;
+import org.example.task1.validator.impl.ArrayValidationService;
 import org.example.task1.warehouse.ArrayStats;
 import org.example.task1.warehouse.ArrayStatsWarehouse;
 

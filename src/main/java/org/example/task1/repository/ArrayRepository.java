@@ -2,7 +2,7 @@ package org.example.task1.repository;
 
 import org.example.task1.entity.ArrayEntity;
 import org.example.task1.exception.ArrayException;
-import org.example.task1.service.validator.impl.ArrayValidationService;
+import org.example.task1.validator.impl.ArrayValidationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -35,12 +35,11 @@ public enum ArrayComparator implements Comparator<ArrayEntity> {
                 if (stats1 == null && stats2 == null) return 0;
                 if (stats1 == null) return -1;
                 if (stats2 == null) return 1;
-
                 return Integer.compare(stats1.getSum(), stats2.getSum());
 
             } catch (ArrayException e) {
                 throw new RuntimeException(e);
             }
         }
-    };
+    }
 }

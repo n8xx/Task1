@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.task1.entity.ArrayEntity;
 import org.example.task1.exception.ArrayException;
-import org.example.task1.service.validator.impl.ArrayValidationService;
+import org.example.task1.validator.impl.ArrayValidationService;
 
 
 
@@ -33,9 +33,17 @@ public class ArrayStatsWarehouse {
     public ArrayStats getStats(ArrayEntity arrayEntity) throws ArrayException {
         return statsMap.get(arrayEntity.getId());
     }
-    
+    public ArrayStats getStats(String arrayId) throws ArrayException {
+        return statsMap.get(arrayId);
+    }
+    public void putStats(ArrayEntity arrayEntity, ArrayStats arrayStats) throws ArrayException {
+        statsMap.put(arrayEntity.getId(), arrayStats);
+    }
     public void removeStats(ArrayEntity arrayEntity) throws ArrayException {
         statsMap.remove(arrayEntity.getId());
+    }
+    public void removeStats(String arrayId) throws ArrayException {
+        statsMap.remove(arrayId);
     }
 
 }

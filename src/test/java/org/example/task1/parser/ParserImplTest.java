@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileLineParserImplTest {
+class ParserImplTest {
 
     @Test
     void provideLinesForParseToCustomArrayFromStringList() throws ArrayException {
@@ -39,7 +39,7 @@ class FileLineParserImplTest {
              actual.add(parser.parseEntityFromString(line));
         }
         for(int i =0; i<expected.size();i++){
-            assertArrayEquals(expected.get(i), actual.get(i));
+            assertArrayEquals(expected.get(i).getArray(), actual.get(i).getArray());
         }
 
     }

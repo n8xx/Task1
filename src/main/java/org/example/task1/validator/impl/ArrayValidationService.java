@@ -1,7 +1,7 @@
 package org.example.task1.validator.impl;
 
 import org.example.task1.entity.ArrayEntity;
-import org.example.task1.service.validator.ArrayValidator;
+import org.example.task1.validator.ArrayValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

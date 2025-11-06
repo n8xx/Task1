@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.task1.entity.ArrayEntity;
 import org.example.task1.exception.ArrayException;
-import org.example.task1.service.parser.ArrayEntityParser;
+import org.example.task1.parser.ArrayEntityParser;
 import org.example.task1.factory.ArrayEntityFactory;
 import org.example.task1.validator.impl.ArrayValidationService;
 
