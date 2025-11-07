@@ -10,7 +10,7 @@ import org.example.task1.validator.impl.ArrayValidationService;
 
 public class ArrayManipulationService implements ArrayManipulator {
     public final static Logger logger = LogManager.getLogger();
-    private ArrayValidationService validator;
+    private ArrayValidationService validator = new ArrayValidationService();
     @Override
     public void replaceByCondition(ArrayEntity arrayEntity, String condition, int referenceValue, int newValue) throws ArrayException {
         logger.info("Method for changing elements in array by condition is called");

@@ -2,6 +2,7 @@ package org.example.task1.repository;
 
 import org.example.task1.entity.ArrayEntity;
 import org.example.task1.exception.ArrayException;
+import org.example.task1.repository.specification.ArraySpecification;
 import org.example.task1.validator.impl.ArrayValidationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,28 +27,29 @@ public class ArrayRepository {
         logger.info("Create an Array Repository");
         return instance;
     }
-    public void addArray(ArrayEntity array) throws ArrayException {
+    public void addArray(ArrayEntity arrayEntity) throws ArrayException {
         logger.info("Called a method for adding an array");
-        if(!validator.isValidArray(array.getArray())) {
-            logger.error("Array is not valid");
-            throw new ArrayException("Array is not valid");
+        if(validator.isValidEntity(arrayEntity)){
+            arrays.add(arrayEntity);
+        }else {
+            logger.error("Entity is not valid");
+            throw new ArrayException("Entity is not valid");
         }
-        arrays.add(array);
     }
-    public void removeArray(int id) throws ArrayException {
+    public void removeArray(ArrayEntity arrayEntity) throws ArrayException {
         logger.info("Called a method for removing an array");
-        ArrayEntity array = arrays.get(id);
-        if(!validator.isValidArray(array.getArray())) {
+        if(validator.isValidEntity(arrayEntity)) {
+            arrays.remove(arrayEntity);
+        }else {
             logger.error("No such array");
             throw new ArrayException("Array is not valid");
         }
-        arrays.remove(array);
     }
     public ArrayEntity getArrayById(String id) {
         logger.info("Called a method for getting an array by id");
-        for (ArrayEntity array : arrays) {
-            if(array.getId().equals(id)) {
-                return array;
+        for (ArrayEntity arrayEntity : arrays) {
+            if(arrayEntity.getId().equals(id)) {
+                return arrayEntity;
             }
         }
         logger.warn("There's no array with index" + id);
@@ -63,5 +65,16 @@ public class ArrayRepository {
         List<ArrayEntity> sorted = new ArrayList<>(arrays);
         sorted.sort(comparator);
         return sorted;
+    }
+    public List<ArrayEntity> query(ArraySpecification specification) throws ArrayException {
+        logger.info("Starting query operation with specification: {}",
+                specification != null ? specification.getClass().getSimpleName() : "null");
+        List<ArrayEntity> list = new ArrayList<>();
+        for (ArrayEntity array : arrays) {
+            if (specification.specify(array)) {
+                list.add(array);
+            }
+        }
+        return list;
     }
 }

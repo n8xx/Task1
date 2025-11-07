@@ -1,18 +1,22 @@
 package org.example.task1.validator.impl;
 
 import org.example.task1.entity.ArrayEntity;
+import org.example.task1.exception.ArrayException;
 import org.example.task1.validator.ArrayValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.regex.Pattern;
 
 
     public class ArrayValidationService implements ArrayValidator {
 
         public static final Logger logger = LogManager.getLogger(ArrayValidationService.class);
-        public static final String REGEX = "^\\s*(-?\\d+)(\\s*[,;\\-\\s]\\s*-?\\d+)*\\s*$";
+        public static final String REGEX = "^.*?:\\s*(-?\\d+)(\\s*[,;\\-\\s]\\s*-?\\d+)*\\s*$";
 
         private static final String ID_REGEX = "^[a-zA-Z_][a-zA-Z0-9_]*$";
         private static final int MAX_ARRAY_LENGTH = 1000;
@@ -21,41 +25,41 @@ import java.util.regex.Pattern;
 
         @Override
         public boolean isLineValid(String line) {
-            if (line == null || line.isBlank()) {
-                logger.info("Line is empty");
-                return false;
-            }
-
-            Pattern pattern = Pattern.compile(REGEX);
-            boolean isValid = pattern.matcher(line).matches();
+            if (line != null && !(line.isBlank())) {
+                Pattern pattern = Pattern.compile(REGEX);
+                boolean isValid = pattern.matcher(line).matches();
                 logger.info("validation of the line:"+isValid);
 
-            return isValid;
+                return isValid;
+            }
+            logger.info("Line is empty");
+            return false;
+
         }
 
-
         public boolean isValidId(String id) {
-            if (id == null || id.isEmpty()) {
-                logger.warn("ID is null or empty");
-                return false;
+            if (id != null || !(id.isBlank())) {
+                boolean isValid = Pattern.matches(ID_REGEX, id);
+                if (isValid) {
+                    logger.debug("ID '{}' is valid", id);
+                } else {
+                    logger.warn("ID '{}' is not valid. ID must start with letter or underscore and contain only letters, numbers and underscores", id);
+                }
+                return isValid;
             }
+            logger.warn("ID is null or empty");
+            return false;
 
-            boolean isValid = Pattern.matches(ID_REGEX, id);
-            if (isValid) {
-                logger.debug("ID '{}' is valid", id);
-            } else {
-                logger.warn("ID '{}' is not valid. ID must start with letter or underscore and contain only letters, numbers and underscores", id);
-            }
-            return isValid;
         }
 
 
         public boolean isValidNumber(int number) {
             boolean isValid = number >= MIN_NUMBER_VALUE && number <= MAX_NUMBER_VALUE;
-            if (!isValid) {
-                logger.warn("Number {} is out of allowed range [{}, {}]", number, MIN_NUMBER_VALUE, MAX_NUMBER_VALUE);
+            if (isValid) {
+                return isValid;
             }
-            return isValid;
+            logger.warn("Number {} is out of allowed range [{}, {}]", number, MIN_NUMBER_VALUE, MAX_NUMBER_VALUE);
+            return false;
         }
 
 
@@ -70,7 +74,6 @@ import java.util.regex.Pattern;
                 return false;
             }
 
-            // Проверяем каждое число в массиве
             for (int i = 0; i < array.length; i++) {
                 if (!isValidNumber(array[i])) {
                     logger.warn("Array contains invalid number at index {}: {}", i, array[i]);
@@ -82,19 +85,30 @@ import java.util.regex.Pattern;
         }
 
         public boolean isValidEntity(ArrayEntity arrayEntity)  {
-            if(isLineValid(arrayEntity.getId())) {
-                return isValidArray(arrayEntity.getArray());
+            try{
+            if(isValidId(arrayEntity.getId())) {
+                logger.info("ID '{}' is valid", arrayEntity.getId());
+                if(isValidArray(arrayEntity.getArray())){
+                    logger.info("Array is valid", arrayEntity.getArray());
+                    return true;
+                }else{
+                    logger.warn("Array is not valid", arrayEntity.getArray());
+                }
             }
-            return false;
+                logger.warn("ID '{}' is not valid", arrayEntity.getId());
+                return false;
+            }catch(NullPointerException e){
+                logger.warn("array entity is null");
+                return false;
+            }
         }
 
         public boolean isValidFilePath(String filePath)  {
-            if (filePath == null || filePath.isBlank()) {
+            if (filePath != null || !filePath.isBlank()|| Files.exists(Path.of(filePath))) {
+                return true;
+            }
                 logger.warn("File path is null or empty");
                 return false;
-            }
-            Path path = Path.of(filePath).normalize();
-            return true;
         }
 
 

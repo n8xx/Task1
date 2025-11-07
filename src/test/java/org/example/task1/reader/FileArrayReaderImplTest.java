@@ -21,14 +21,10 @@ class FileArrayReaderImplTest {
         Path resourceDir = Path.of("src", "test", "resources");
         Files.createDirectories(resourceDir);
 
-        Path fileInResources = resourceDir.resolve("testFile.txt");
-        Files.write(fileInResources, List.of("1; 2; 3", "4; 5; 6"));
+        Path testFile = resourceDir.resolve("testFile.txt");
+        Files.write(testFile, List.of("1; 2; 3", "4; 5; 6"));
 
-        Path buildResourceDir = Path.of("build", "resources", "test");
-        Files.createDirectories(buildResourceDir);
-        Files.copy(fileInResources, buildResourceDir.resolve("testFile.txt"), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-
-        List<String> lines = reader.readFromFile("testFile.txt");
+        List<String> lines = reader.readFromFile(testFile.toAbsolutePath().toString());
 
         assertAll(
                 () -> assertEquals(2, lines.size()),
@@ -40,9 +36,9 @@ class FileArrayReaderImplTest {
     @Test
     @DisplayName("File not found - throw ArrayException")
     void testFileNotFoundThrowsException() {
-        FileArrayReader reader = new FileArrayReaderImpl();
+        ArrayReaderService reader = new ArrayReaderService();
         ArrayException exception = assertThrows(ArrayException.class, () ->
-                reader.readFile("no_such_file.txt")
+                reader.readFromFile("no_such_file.txt")
         );
 
         assertTrue(exception.getMessage().contains("File not found"));
@@ -51,10 +47,10 @@ class FileArrayReaderImplTest {
     @Test
     @DisplayName("wrong uri - throw ArrayException")
     void testUriSyntaxExceptionHandling() {
-        FileArrayReaderImpl reader = new FileArrayReaderImpl();
+        ArrayReaderService reader = new ArrayReaderService();
 
         assertThrows(ArrayException.class, () -> {
-            reader.readFile("%:/broken_uri.txt");
+            reader.readFromFile("%:/broken_uri.txt");
         });
     }
 }

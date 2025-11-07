@@ -6,30 +6,35 @@ import org.example.task1.exception.ArrayException;
 import org.example.task1.io.reader.ArrayFileReader;
 import org.example.task1.validator.impl.ArrayValidationService;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class ArrayReaderService implements ArrayFileReader {
     public static final Logger logger = LogManager.getLogger(ArrayReaderService.class);
 
-
     public List<String> readFromFile(String filepath) throws ArrayException {
         ArrayValidationService validator = new ArrayValidationService();
-        if (validator.isValidFilePath(filepath)) {
-            List<String> list = new ArrayList<>();
-            File file = new File(filepath);
-            try (FileReader reader = new FileReader(file)) {
-                reader.read();
-            }catch(Exception e) {
-                logger.warn("Error while reading file " + filepath, e);
-            }
+        List<String> list = new ArrayList<>();
 
-            logger.info("The file has read successfully and you have a new string array list");
-            return list;
+        if (validator.isValidFilePath(filepath)) {
+            File file = new File(filepath);
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    list.add(line);
+                }
+                logger.info("The file has been read successfully. Lines read: " + list.size());
+            } catch (IOException e) {
+                logger.warn("Error while reading file " + filepath);
+                throw new ArrayException("File not found");
+            }
+        } else {
+            throw new ArrayException("Invalid file path");
         }
-        return null;
+        return list;
     }
 }
